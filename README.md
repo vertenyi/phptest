@@ -1,6 +1,7 @@
 # phptest
 
 A feladat nincs teljesen kész vagy legalábbis nem olyan mint szerettem volna, de listáz, létrehozza az adatbázist ha kell, és fel is tölti.
+Mindehhez az env.ini fileban kell az adatbázis kapcsolódási adatokat megadni.
 Lehet kölcsönözni, visszaadni. a táblázat minden oszlop szerint rendezhető és 10 találatonként lapozható. Ez most php-vel van megoldva mert php feladatra jelentkezdtem, de adatmennyiségtől függően javascripttel vagy api hívással csinálom... amihez nekem most nem volt elég az idő... így a dátum és a rating intervallumra javascripttel szűrök csak rá és kiszürkítem, de nem veszem ki a találatokból, mert ahhoz a lapozó részt is újra kellett volna írnom.
 
 
