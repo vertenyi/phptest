@@ -21,9 +21,16 @@ $total_pages = ceil($total_records / $limit);
 
 require_once 'htmlhead.php';
 ?>
-<main>
+<main x-data="{ start:1950, end:2024, minrate:0, maxrate:10 }">
     <h2 class="p-4 m-4 text-xl text-center">Movies</h2>
-
+    <div class="flex justify-center">Idő intervallum: <!-- last minute megoldás ezért ezzel egyenlőre nem számol a lapozó -->
+        <input type="number" x-model="start" min="1950" max="2024" class="px-2 py-1 mx-4 border border-gray-600"> - 
+        <input type="number" x-model="end" min="1950" max="2024" class="px-2 py-1 mx-4 border border-gray-600">
+    </div>
+    <div class="flex justify-center">Értékelés intervallum: <!-- last minute megoldás ezért ezzel egyenlőre nem számol a lapozó -->
+        <input type="number" x-model="minrate" min="0" max="10" step="0.1" class="px-2 py-1 mx-4 border border-gray-600"> - 
+        <input type="number" x-model="maxrate" min="0" max="10" step="0.1" class="px-2 py-1 mx-4 border border-gray-600">
+    </div>
     <?php
 
     echo '<h3 class="p-4 m-4 text-lg text-center">Összesen ' . $total_records . ' Film, Oldalak: ' . $page . './' . $total_pages . ' - ';
@@ -37,6 +44,7 @@ require_once 'htmlhead.php';
         LEFT JOIN rentals ON movies.id = rentals.movie_id AND rentals.return_date IS NULL 
         ORDER BY $order $direction 
         LIMIT $start_from, $limit";
+        
     $rs_result = mysqli_query($conn, $sql);
     ?>
 
@@ -77,7 +85,10 @@ require_once 'htmlhead.php';
         <?php
         while ($row = mysqli_fetch_assoc($rs_result)) {
         ?>
-            <tr class="border border-gray-300 hover:bg-gray-200">
+            <!-- <tr class="border border-gray-300 hover:bg-gray-200" x-show="start <= <?php echo $row["release_year"]; ?> && end >= <?php echo $row["release_year"]; ?>"> -->
+            <tr class="border border-gray-300 hover:bg-gray-200" :class="start <= <?php echo $row["release_year"]; ?> && end >= <?php echo $row["release_year"]; ?> 
+                                && minrate <= <?php echo $row["rating"]; ?> && maxrate >= <?php echo $row["rating"]; ?>
+                                ? '' : 'text-gray-300'">    
                 <td class="p-2"><?php echo $row["id"]; ?></td>
                 <td class="p-2"><?php echo $row["title"]; ?></td>
                 <td class="p-2"><?php echo $row["genre"]; ?></td>
